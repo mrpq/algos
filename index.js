@@ -1,20 +1,45 @@
-const insert = arr => {
-  for (let i = 1; i < arr.length; i += 1) {
-    for (let j = i; j > 0; j -= 1) {
-      if (arr[j] < arr[j - 1]) {
-        const tmp = arr[j - 1];
-        arr[j - 1] = arr[j];
-        arr[j] = tmp;
-      } else {
-        break;
-      }
-    }
+const num = 4;
+
+const sq = num * num;
+let indexes = [];
+let phase = 1;
+let xMin = 0;
+let xMax = num - 1;
+let yMin = 0;
+let yMax = num - 1;
+while (indexes.length < sq) {
+  if (phase > 4) {
+    phase = 1;
   }
-  return arr;
-};
+  if (phase === 1) {
+    let y = yMin;
+    for (let x = xMin; x <= xMax; x += 1) {
+      indexes.push([x, y]);
+    }
+    yMin += 1;
+    phase += 1;
+  } else if (phase === 2) {
+    let x = xMax;
+    for (let y = yMin; y <= yMax; y += 1) {
+      indexes.push([x, y]);
+    }
+    xMax -= 1;
+    phase += 1;
+  } else if (phase === 3) {
+    let y = yMax;
+    for (let x = xMax; x >= xMin; x -= 1) {
+      indexes.push([x, y]);
+    }
+    yMax -= 1;
+    phase += 1;
+  } else {
+    let x = xMin;
+    for (let y = yMax; y >= yMin; y -= 1) {
+      indexes.push([x, y]);
+    }
+    xMin += 1;
+    phase += 1;
+  }
+}
 
-console.log("---insert---");
-
-const arr = [2, 5, 6, 1, 4, 3, -1, 10, 16, 9];
-const res = insert(arr);
-console.log(res);
+let mat = [];
